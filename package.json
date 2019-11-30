@@ -4,9 +4,30 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "node scripts/compile.js",
+    "pretest": "npm run compile",
+    "test": "mocha tests/",
+    "predeploy": "npm run compile",
+    "deploy": "node scripts/deploy.js",
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@babel/runtime": "7.0.0-beta.55",
+    "@material-ui/core": "1.1.0",
+    "fs-extra": "^8.1.0",
+    "next": "^6.0.3",
+    "next-routes": "^1.4.2",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "solc": "0.4.24"
+  },
+  "devDependencies": {
+    "ganache-cli": "^6.7.0",
+    "mocha": "^6.2.2"
+  }
 }
