@@ -1,0 +1,32 @@
+const path = require('path');
+const Web3 = require('web3');
+const HDWalletProvider = require('truffle-hdwallet-provider');
+
+// 1. 拿到 bytecode
+const contractPath = path.resolve(__dirname, '../compiled/rightAway.json');
+const { interface, bytecode } = require(contractPath);
+
+// 2. 配置 provider
+const provider = new HDWalletProvider(
+    'fame certain example face name silent talent fix diet mom zoo acoustic',
+    'https://rinkeby.infura.io/v3/c178420e48dd441e80593e34dae0bd5d'
+);
+
+// 3. 初始化 web3 实例
+const web3 = new Web3(provider);
+
+(async () => {
+    // 4. 获取钱包里面的账户
+    const accounts = await web3.eth.getAccounts();
+    console.log('部署合约的账户：', accounts[0]);
+
+    // 5. 创建合约实例并且部署
+    const contract = new web3.eth.Contract(JSON.parse(interface));
+    console.log('1')
+    const transaction = contract.deploy({ data: bytecode });
+    console.log('2')
+    const result = await transaction.send({ from: accounts[0], gas: 5000000 });
+    console.log('3')
+
+    console.log('合约部署成功：', result);
+})();
