@@ -1,4 +1,3 @@
-
 const fs = require('fs-extra');
 const path = require('path');
 const solc = require('solc');
@@ -10,11 +9,15 @@ fs.ensureDirSync(compiledDir);
 
 // 2. search all contracts
 const contractFiles = fs.readdirSync(path.resolve(__dirname, '../contracts'));
+console.log(contractFiles);
 contractFiles.forEach(contractFile => {
     // 2.1 compile
+    console.log("");
+    console.log(contractFile);
     const contractPath = path.resolve(__dirname, '../contracts', contractFile);
     const contractSource = fs.readFileSync(contractPath, 'utf8');
-    const result = solc.compile(JSON.parse(JSON.stringify(contractSource)), 1);
+    console.log(contractPath);
+    const result = solc.compile(contractSource);
     console.log(`file compiled: ${contractFile}`)
 
     // 2.2 check errors
@@ -23,10 +26,17 @@ contractFiles.forEach(contractFile => {
     }
 
     // 2.3 save to disk
-    Object.keys(result.contracts).forEach(name => {
-        const contractName = name.replace(/^:/, '');
-        const filePath = path.resolve(compiledDir, `${contractName}.json`);
-        fs.outputJsonSync(filePath, result.contracts[name]);
-        console.log(` > contract ${contractName} saved to ${filePath}`);
-    });
+    console.log(Object.keys(result.contracts));
+    const name = Object.keys(result.contracts)[0].replace(/^:/, '');
+    // console.log(name);
+    const filePath = path.resolve(compiledDir, `${name}.json`);
+    fs.outputJsonSync(filePath, result.contracts[Object.keys(result.contracts)[0]]);
+    // console.log(` > contract ${name} saved to ${filePath}`);
+
+//     Object.keys(result.contracts).forEach(name => {
+//         const contractName = name.replace(/^:/, '');
+//         const filePath = path.resolve(compiledDir, `${contractName}.json`);
+//         fs.outputJsonSync(filePath, result.contracts[name]);
+//         console.log(` > contract ${contractName} saved to ${filePath}`);
+//     });
 });

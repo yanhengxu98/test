@@ -9,10 +9,10 @@ contract rightAway {
 	event purchased(address indexed _user, uint64 _guess);
 	event delivered(address indexed _user, uint64 _guess, uint64 _wincode, bool _win);
 
-	uint64 public price    = 5;
-	uint64 public award    =50;
-	uint64 public minguess = 0;
-	uint64 public maxguess =20; // Range of the guess.
+	uint128 public price   =  5 wei;
+	uint128 public award   = 50 wei;
+	uint64 public minguess =  0;
+	uint64 public maxguess = 20; // Range of the guess.
 	// Parameters that won't be altered.
 
 	address public user;
